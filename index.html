@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-User To-Do List Web Application</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+    <div class="theme-toggle-container">
+        <button class="theme-toggle" id="themeToggle" title="Toggle Dark Mode">
+            <span class="theme-icon">🌙</span>
+        </button>
+    </div>
+
+    <header class="header">
+        <div class="header-content">
+            <h1 class="app-title">📝 Task Master Pro</h1>
+            <p class="app-subtitle">Multi-user task management for teams & individuals</p>
+        </div>
+    </header>
+
+    <main class="container">
+
+        
+        <section class="user-management-section">
+            <h2 class="section-title">👥 User Management</h2>
+            <div class="user-input-wrapper">
+                <input 
+                    type="text" 
+                    id="userInput" 
+                    class="user-input" 
+                    placeholder="Enter user name..."
+                    autocomplete="off"
+                >
+                <button id="addUserBtn" class="add-user-btn">Add User</button>
+            </div>
+            <div id="userValidationMsg" class="validation-msg"></div>
+            
+            
+            <div class="users-container">
+                <div id="usersList" class="users-list">
+                    <div class="empty-users-state">
+                        <p>👤 No users yet. Create one to get started!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    
+        <section class="current-user-section">
+            <div class="user-filter-wrapper">
+                <label for="userFilterSelect">Filter Tasks by User:</label>
+                <select id="userFilterSelect" class="user-filter-select">
+                    <option value="all">All Users</option>
+                </select>
+            </div>
+        </section>
+
+        
+        <section class="input-section">
+            <h2 class="section-title">➕ Add Task</h2>
+            <div class="input-wrapper">
+                <select id="taskUserSelect" class="task-user-select">
+                    <option value="">-- Select a user --</option>
+                </select>
+                <input 
+                    type="text" 
+                    id="taskInput" 
+                    class="task-input" 
+                    placeholder="Add a new task..."
+                    autocomplete="off"
+                >
+                <select id="prioritySelect" class="priority-select">
+                    <option value="low">Low</option>
+                    <option value="medium" selected>Medium</option>
+                    <option value="high">High</option>
+                </select>
+                <button id="addBtn" class="add-btn">Add Task</button>
+            </div>
+            <div id="validationMsg" class="validation-msg"></div>
+        </section>
+
+        
+        <section class="search-filter-section">
+            <div class="search-wrapper">
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    class="search-input" 
+                    placeholder="🔍 Search tasks..."
+                    autocomplete="off"
+                >
+            </div>
+
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="pending">Pending</button>
+                <button class="filter-btn" data-filter="completed">Completed</button>
+            </div>
+        </section>
+
+        
+        <section class="stats-section">
+            <div class="stat-card">
+                <div class="stat-icon">👥</div>
+                <div class="stat-content">
+                    <div class="stat-label">Total Users</div>
+                    <div class="stat-value" id="totalUsers">0</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📊</div>
+                <div class="stat-content">
+                    <div class="stat-label">Total Tasks</div>
+                    <div class="stat-value" id="totalTasks">0</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">✅</div>
+                <div class="stat-content">
+                    <div class="stat-label">Completed</div>
+                    <div class="stat-value" id="completedTasks">0</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⏳</div>
+                <div class="stat-content">
+                    <div class="stat-label">Pending</div>
+                    <div class="stat-value" id="pendingTasks">0</div>
+                </div>
+            </div>
+        </section>
+
+        
+        <section class="task-list-section">
+            <h2 class="section-title">📋 Tasks</h2>
+            <div id="taskList" class="task-list">
+                <div class="empty-state">
+                    <p class="empty-icon">📭</p>
+                    <p class="empty-message">No tasks yet. Create one to get started!</p>
+                </div>
+            </div>
+        </section>
+
+
+        <section class="clear-section">
+            <button id="clearBtn" class="clear-btn">🗑️ Clear All Tasks</button>
+        </section>
+
+    </main>
+
+    
+    <div id="toastContainer" class="toast-container"></div>
+
+    <footer class="footer">
+        <p>&copy; 2026 Multi-User To-Do List Web App | Built with HTML, CSS & JavaScript | All features stored locally.</p>
+    </footer>
+
+    
+    <div id="confirmModal" class="modal">
+        <div class="modal-content">
+            <h2 id="modalTitle">Confirm Action</h2>
+            <p id="modalMessage">Are you sure?</p>
+            <div class="modal-buttons">
+                <button id="confirmBtn" class="modal-btn confirm">Confirm</button>
+                <button id="cancelBtn" class="modal-btn cancel">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <h2>Edit Task</h2>
+            <select id="editUserSelect" class="task-user-select">
+                <option value="">-- Select a user --</option>
+            </select>
+            <input type="text" id="editInput" class="edit-input" placeholder="Update your task...">
+            <select id="editPrioritySelect" class="priority-select">
+                <option value="low">Low Priority</option>
+                <option value="medium">Medium Priority</option>
+                <option value="high">High Priority</option>
+            </select>
+            <div class="modal-buttons">
+                <button id="saveEditBtn" class="modal-btn confirm">Save</button>
+                <button id="cancelEditBtn" class="modal-btn cancel">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
